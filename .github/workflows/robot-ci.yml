@@ -1,0 +1,24 @@
+name: Run Robot Framework Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instalar Robot Framework
+        run: |
+          python -m pip install --upgrade pip
+          pip install robotframework
+
+      - name: Executar testes
+        run: robot tests
