@@ -9,12 +9,11 @@ Este repositório contém testes automatizados utilizando o **Robot Framework**.
 
 ## 📁 Estrutura do Projeto
 ```
-robot-framework-tests/
-│-- tests/                 # Diretório com os testes
-│   ├── test_example.robot # Exemplo de caso de teste
-│-- .github/workflows/     # Configuração do GitHub Actions
-│   ├── robot-tests.yml    # Workflow de execução dos testes
-│-- README.md              # Documentação do projeto
+📦 automacao_robotframework
+├── 📂 .github/workflows/  # Configuração do GitHub Actions
+|   ├── 📜 robot-ci.yml    # Workflow de execução dos testes
+├── 📂 tests               # Diretório com os testes
+├── 📜 README.md           # Documentação do projeto
 ```
 
 ## 🚀 Como Executar Localmente
@@ -22,7 +21,7 @@ robot-framework-tests/
 1️⃣ **Clonar o repositório:**
 ```bash
 git clone https://github.com/dienesgithub/automacao_robotframework.git
-cd robot-framework-tests
+cd automacao_robotframework
 ```
 
 2️⃣ **Criar um ambiente virtual (opcional, mas recomendado):**

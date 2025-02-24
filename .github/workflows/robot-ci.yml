@@ -3,7 +3,7 @@ name: Run Robot Framework Tests
 on: [push, pull_request]
 
 jobs:
-  test:
+  robot-run:
     runs-on: ubuntu-latest
 
     steps:
