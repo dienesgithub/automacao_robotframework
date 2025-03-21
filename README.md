@@ -34,12 +34,17 @@ venv\Scripts\activate      # Windows
 3️⃣ **Instalar dependências:**
 ```bash
 pip install robotframework
+pip install robotframework-seleniumlibrary
 ```
 
 4️⃣ **Executar os testes:**
 ```bash
 robot tests
 ```
+
+## 🌐 Execução Automática via GitHub Actions
+Verificar versão do navergador Chrome na máquina local e baixar o [chromedriver](https://googlechromelabs.github.io/chrome-for-testing/).
+Assim que feito o download o arquivo **chromedriver.exe** deve ser colocado no diretório **./Scripts/** do local de instalação do Python.
 
 ## 🛠 Execução Automática via GitHub Actions
 A cada **push** ou **pull request**, os testes serão executados automaticamente. Para visualizar os resultados:
@@ -65,5 +70,5 @@ Sinta-se à vontade para abrir issues ou enviar pull requests! 😊
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
-🔗 **Desenvolvido por [Seu Nome](https://github.com/dienesgithub)** 🚀
+🔗 **Desenvolvido por [Dienes Stein](https://github.com/dienesgithub)** 🚀
 
