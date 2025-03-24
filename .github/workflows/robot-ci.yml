@@ -26,14 +26,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable jq unzip
           
-          # Obtém a versão do Chrome instalada
-          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
+          # Obtém a versão exata do Chrome instalada
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
           
-          # Obtém a versão correta do ChromeDriver usando a API oficial
-          CHROMEDRIVER_VERSION=$(curl -sS https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build.json | jq -r ".builds[\"$CHROME_VERSION\"].version")
+          # Obtém a versão exata do ChromeDriver correspondente
+          CHROMEDRIVER_VERSION=$(curl -sS "https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json" | jq -r ".versions[] | select(.version == \"$CHROME_VERSION\") | .downloads.chromedriver[] | select(.platform == \"linux64\") | .url")
+          
+          # Verifica se a URL do ChromeDriver foi encontrada
+          if [ -z "$CHROMEDRIVER_VERSION" ]; then
+            echo "Erro: Não foi possível encontrar um ChromeDriver compatível."
+            exit 1
+          fi
 
           # Baixa e instala o ChromeDriver
-          wget https://storage.googleapis.com/chrome-for-testing-public/$CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip
+          wget "$CHROMEDRIVER_VERSION" -O chromedriver-linux64.zip
           unzip chromedriver-linux64.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
