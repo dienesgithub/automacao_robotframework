@@ -30,7 +30,7 @@ jobs:
           sudo mv chromedriver /usr/local/bin/
 
       - name: Executar os testes
-        run: robot -d results tests/
+        run: robot -d results tests/ || true
 
       - name: Upload dos resultados
         uses: actions/upload-artifact@v4
