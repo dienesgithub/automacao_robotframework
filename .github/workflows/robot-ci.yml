@@ -24,10 +24,16 @@ jobs:
           pip install robotframework
           pip install robotframework-seleniumlibrary
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y google-chrome-stable jq unzip
+          
+          # Obtém a versão do Chrome instalada
           CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
-          CHROMEDRIVER_VERSION=$(curl -sS https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone.json | jq -r ".milestones[\"$CHROME_VERSION\"].chromedriver")
-          wget https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION.0/linux64/chromedriver-linux64.zip
+          
+          # Obtém a versão correta do ChromeDriver usando a API oficial
+          CHROMEDRIVER_VERSION=$(curl -sS https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build.json | jq -r ".builds[\"$CHROME_VERSION\"].version")
+
+          # Baixa e instala o ChromeDriver
+          wget https://storage.googleapis.com/chrome-for-testing-public/$CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
