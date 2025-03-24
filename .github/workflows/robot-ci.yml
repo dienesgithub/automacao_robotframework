@@ -25,12 +25,15 @@ jobs:
           pip install robotframework-seleniumlibrary
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-          wget https://chromedriver.storage.googleapis.com/$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
+          CHROMEDRIVER_VERSION=$(curl -sS https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone.json | jq -r ".milestones[\"$CHROME_VERSION\"].chromedriver")
+          wget https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION.0/linux64/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Executar os testes
-        run: robot -d results tests/ || true
+        run: robot -d results tests/
 
       - name: Upload dos resultados
         uses: actions/upload-artifact@v4
