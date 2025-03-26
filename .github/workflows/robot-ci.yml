@@ -36,11 +36,14 @@ jobs:
       - name: Instalar ChromeDriver
         run: |
           CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}' | sed 's/\([0-9]*\)\.[0-9]*\.[0-9]*\.[0-9]*/\1/')
-          wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+          DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          wget https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Rodar o teste
         run: |
+          export DISPLAY=:99
+          google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 &
           robot tests/
