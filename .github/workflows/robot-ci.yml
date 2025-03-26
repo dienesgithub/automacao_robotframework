@@ -46,4 +46,6 @@ jobs:
     # Passo 5: Rodar os testes do Robot Framework
     - name: Rodar testes Robot Framework
       run: |
-        robot --variable BROWSER:chrome tests/
+        export DISPLAY=:99.0
+        Xvfb :99 -screen 0 1280x1024x24 &
+        robot --variable CHROME_USER_DATA_DIR:/tmp/chrome_user_data tests/ # Altere o caminho do diretório conforme necessário
