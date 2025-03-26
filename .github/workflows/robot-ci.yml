@@ -30,7 +30,7 @@ jobs:
         # Baixar a versão do ChromeDriver correspondente à versão do Chrome
         wget https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/linux64/chrome-linux64.zip
         unzip chrome-linux64.zip
-        sudo mv chromedriver /usr/local/bin/
+        sudo mv chrome-linux64/chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
 
     # Passo 4: Instalar o Robot Framework e bibliotecas necessárias
