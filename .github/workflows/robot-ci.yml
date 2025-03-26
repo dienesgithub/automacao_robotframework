@@ -1,4 +1,4 @@
-name: Robot Framework Tests
+name: Teste Robot Framework com ChromeDriver
 
 on:
   push:
@@ -10,59 +10,39 @@ on:
 
 jobs:
   robot-run:
-    runs-on: ubuntu-latest  # Pode usar também windows-latest ou macos-latest, dependendo da sua necessidade
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checar o código
-        uses: actions/checkout@v2
+    # Passo 1: Check out o código do repositório
+    - name: Check out repository
+      uses: actions/checkout@v2
 
-      - name: Configurar o Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
+    # Passo 2: Instalar o Google Chrome
+    - name: Instalar Google Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget curl
+        sudo apt-get install -y google-chrome-stable
 
-      - name: Instalar dependências do Python
-        run: |
-          python -m pip install --upgrade pip
-          pip install robotframework
-          pip install robotframework-seleniumlibrary
+    # Passo 3: Instalar o ChromeDriver
+    - name: Instalar ChromeDriver
+      run: |
+        # Baixar a versão do ChromeDriver correspondente à versão do Chrome
+        CHROME_VERSION=$(google-chrome-stable --version | sed 's/Google Chrome //')
+        CHROME_DRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+        wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
+        sudo mv chromedriver /usr/local/bin/
+        sudo chmod +x /usr/local/bin/chromedriver
 
-      - name: Instalar Google Chrome
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y wget curl
-          sudo apt-get install -y google-chrome-stable
+    # Passo 4: Instalar o Robot Framework e bibliotecas necessárias
+    - name: Instalar o Robot Framework e dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install robotframework
+        pip install robotframework-seleniumlibrary
 
-      - name: Verificar a versão do Google Chrome
-        run: |
-          google-chrome-stable --version
-  
-      - name: Instalar ChromeDriver
-        run: |
-          # Pega a versão do Google Chrome (somente a versão principal)
-          CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}' | cut -d'.' -f1)
-          
-          echo "Versão do Chrome: $CHROME_VERSION"
-
-          # Pega a versão correspondente do ChromeDriver
-          DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-          
-          echo "Versão do ChromeDriver: $DRIVER_VERSION"
-
-          # Se não obtivermos uma versão válida, aborta o processo
-          if [ -z "$DRIVER_VERSION" ]; then
-            echo "Erro: Não foi possível obter a versão do ChromeDriver"
-            exit 1
-          fi
-
-          # Baixa e instala o ChromeDriver correto
-          wget https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
-
-      - name: Rodar o teste
-        run: |
-          export DISPLAY=:99
-          google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 &
-          robot tests/
+    # Passo 5: Rodar os testes do Robot Framework
+    - name: Rodar testes Robot Framework
+      run: |
+        robot --variable BROWSER:chrome tests/
