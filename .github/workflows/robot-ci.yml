@@ -58,4 +58,11 @@ jobs:
         path: |
           /home/runner/work/automacao_robotframework/automacao_robotframework/log.html
           /home/runner/work/automacao_robotframework/automacao_robotframework/report.html
-        retention-days: 7  # Mantém os arquivos por 7 dias        
+        retention-days: 7  # Mantém os arquivos por 7 dias       
+        
+    # Passo 7: Adicionar relatórios ao Actions Summary    
+    - name: Adicionar link dos relatórios ao GitHub Actions Summary
+      run: |
+        echo "### 📊 Relatórios do Robot Framework" >> $GITHUB_STEP_SUMMARY
+        echo "[🔗 Log do Teste](./log.html)" >> $GITHUB_STEP_SUMMARY
+        echo "[📜 Relatório Final](./report.html)" >> $GITHUB_STEP_SUMMARY        
