@@ -29,7 +29,7 @@ jobs:
       run: |
         # Baixar a versão do ChromeDriver correspondente à versão do Chrome
         wget https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/linux64/chromedriver-linux64.zip
-        unzip chrome-linux64.zip
+        unzip chromedriver-linux64.zip
         # Listar os arquivos extraídos para verificar onde está o chromedriver
         ls -la chrome-linux64
         # Caso o chromedriver esteja na pasta correta, movê-lo para /usr/local/bin/
