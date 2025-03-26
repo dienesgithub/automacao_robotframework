@@ -1,4 +1,4 @@
-name: Teste Robot Framework com ChromeDriver
+name: Teste Robot Framework
 
 on:
   push:
@@ -48,4 +48,4 @@ jobs:
       run: |
         export DISPLAY=:99.0
         Xvfb :99 -screen 0 1280x1024x24 &
-        robot --variable CHROME_USER_DATA_DIR:/tmp/chrome_user_data tests/ # Altere o caminho do diretório conforme necessário
+        robot --variable CHROME_USER_DATA_DIR:/tmp/chrome_user_data tests/

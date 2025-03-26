@@ -42,7 +42,7 @@ pip install robotframework-seleniumlibrary
 robot tests
 ```
 
-## 🌐 Execução Automática via GitHub Actions
+## 🌐 Download chromedriver.exe
 Verificar versão do navergador Chrome na máquina local e baixar o [chromedriver](https://googlechromelabs.github.io/chrome-for-testing/).
 Assim que feito o download o arquivo **chromedriver.exe** deve ser colocado no diretório **./Scripts/** do local de instalação do Python.
 
