@@ -33,14 +33,28 @@ jobs:
           sudo apt-get install -y wget curl
           sudo apt-get install -y google-chrome-stable
 
+      - name: Verificar a versão do Google Chrome
+        run: |
+          google-chrome-stable --version
+  
       - name: Instalar ChromeDriver
         run: |
-          # Pega a versão do Google Chrome
+          # Pega a versão do Google Chrome (somente a versão principal)
           CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}' | cut -d'.' -f1)
           
+          echo "Versão do Chrome: $CHROME_VERSION"
+
           # Pega a versão correspondente do ChromeDriver
           DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
           
+          echo "Versão do ChromeDriver: $DRIVER_VERSION"
+
+          # Se não obtivermos uma versão válida, aborta o processo
+          if [ -z "$DRIVER_VERSION" ]; then
+            echo "Erro: Não foi possível obter a versão do ChromeDriver"
+            exit 1
+          fi
+
           # Baixa e instala o ChromeDriver correto
           wget https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
