@@ -14,7 +14,7 @@ Abrir navegador e acessar o site
     Open Browser   https://opensource-demo.orangehrmlive.com/web/index.php/auth/login  chrome
 
 Realizar login com usuário e senha
-    
+    Wait Until Element Is Visible   ${inputUser} 
     Input Text                      ${inputUser}        ${user}
     Input Text                      ${inputPassword}    ${password}
     Click Element                   ${buttonLogin}
