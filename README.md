@@ -39,7 +39,7 @@ pip install robotframework-seleniumlibrary
 
 4️⃣ **Executar os testes:**
 ```bash
-robot tests
+robot --outputdir output .\tests\
 ```
 
 ## 🌐 Download chromedriver.exe
