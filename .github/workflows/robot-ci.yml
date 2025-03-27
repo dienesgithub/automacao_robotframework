@@ -64,5 +64,5 @@ jobs:
     - name: Adicionar link dos relatórios ao GitHub Actions Summary
       run: |
         echo "### 📊 Relatórios do Robot Framework" >> $GITHUB_STEP_SUMMARY
-        echo "[🔗 Log do Teste](./log.html)" >> $GITHUB_STEP_SUMMARY
-        echo "[📜 Relatório Final](./report.html)" >> $GITHUB_STEP_SUMMARY        
+        echo "[🔗 Log do Teste](https://github.com/dienesgithub/automacao_robotframework/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+        echo "[📜 Relatório Final](https://github.com/dienesgithub/automacao_robotframework/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY     
