@@ -49,9 +49,13 @@ jobs:
         export DISPLAY=:99.0
         Xvfb :99 -screen 0 1280x1024x24 2>/dev/null &
         robot --variable CHROME_USER_DATA_DIR:/tmp/chrome_user_data tests/
-        
-    # Passo 6: Adicionar links dos relatórios ao Summary
-    - name: Adicionar links dos relatórios ao Summary
-      run: |
-        echo "### 📊 Relatórios do Robot Framework" >> $GITHUB_STEP_SUMMARY
-        echo "🌐 [Abrir Relatório Online (GitHub Pages)](https://${{ github.repository_owner }}.github.io/automacao_robotframework/report.html)" >> $GITHUB_STEP_SUMMARY
+    
+    # Passo 6: Upload dos relatórios como artefatos no GitHub Actions
+    - name: Upload dos relatórios do Robot Framework
+      uses: actions/upload-artifact@v4
+      with:
+        name: Relatorios-RobotFramework
+        path: |
+          /home/runner/work/automacao_robotframework/automacao_robotframework/log.html
+          /home/runner/work/automacao_robotframework/automacao_robotframework/report.html
+        retention-days: 7  # Mantém os arquivos por 7 dias        
