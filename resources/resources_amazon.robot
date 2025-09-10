@@ -13,6 +13,7 @@ ${CAMPO_PESQUISA}    //*[@id="twotabsearchtextbox"]
 Abrir o navegador
     Open Browser   browser=chrome
 #   Maximize Browser Window
+    Set Window Size    1920    1080
     Sleep    3s
 
 Fechar o navegador

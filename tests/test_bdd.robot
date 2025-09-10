@@ -20,7 +20,7 @@ ${videoDesejado}    //input[title=${nomeMusica}]
 
 Abrir o navegador
     Open Browser   browser=chrome
-    Maximize Browser Window
+#   Maximize Browser Window
     Sleep    3s
 
 Fechar o navegador
