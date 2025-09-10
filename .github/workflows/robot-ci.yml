@@ -31,7 +31,7 @@ jobs:
       - name: Install Chrome & ChromeDriver
         run: |
           sudo apt-get update
-          sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4 libnss3 libasound2 fonts-liberation libappindicator3-1 xdg-utils
+          sudo apt-get install -y unzip xvfb libxi6 libnss3 libasound2t64 fonts-liberation libappindicator3-1 xdg-utils
           
           wget -O chrome.zip https://storage.googleapis.com/chrome-for-testing-public/140.0.7339.82/linux64/chrome-linux64.zip
           unzip chrome.zip -d chrome
