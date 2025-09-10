@@ -25,16 +25,8 @@ jobs:
         sudo apt-get install -y google-chrome-stable
 
     # Passo 3: Instalar o ChromeDriver
-    - name: Instalar ChromeDriver
-      run: |
-        # Baixar a versão do ChromeDriver correspondente à versão do Chrome
-        wget https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/linux64/chromedriver-linux64.zip
-        unzip chromedriver-linux64.zip
-        # Listar os arquivos extraídos para verificar onde está o chromedriver
-        ls -la chromedriver-linux64
-        # Mover o chromedriver para /usr/local/bin/
-        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/chromedriver
+    - name: Setup Chrome e Chromedriver
+      uses: browser-actions/setup-chrome@v1
 
     # Passo 4: Instalar o Robot Framework e bibliotecas necessárias
     - name: Instalar o Robot Framework e dependências
