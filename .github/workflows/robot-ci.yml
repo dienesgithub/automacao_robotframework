@@ -1,46 +1,58 @@
-name: Robot Framework Tests
+name: Teste Robot Framework
 
 on:
   push:
-    branches: [ "main", "develop" ]   # ajuste para suas branches
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   robot-run:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout do repositório
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    # Passo 1: Check out o código do repositório
+    - name: Check out repository
+      uses: actions/checkout@v2
 
-      # 2. Instalar Python e dependências
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+    # Passo 2: Instalar o Google Chrome
+    - name: Instalar Google Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget curl
+        sudo apt-get install -y google-chrome-stable
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install robotframework
-          pip install robotframework-seleniumlibrary
-          pip install webdrivermanager
+    # Passo 3: Instalar o ChromeDriver
+    - name: Instalar ChromeDriver
+      run: |
+        # Baixar a versão do ChromeDriver correspondente à versão do Chrome
+        wget https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/linux64/chromedriver-linux64.zip
+        unzip chromedriver-linux64.zip
+        # Listar os arquivos extraídos para verificar onde está o chromedriver
+        ls -la chromedriver-linux64
+        # Mover o chromedriver para /usr/local/bin/
+        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+        sudo chmod +x /usr/local/bin/chromedriver
 
-      # 3. Instalar Chrome e ChromeDriver
-      - name: Ensure Chrome & Chromedriver
-        run: |
-          google-chrome --version
-          chromedriver --version
+    # Passo 4: Instalar o Robot Framework e bibliotecas necessárias
+    - name: Instalar o Robot Framework e dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install robotframework
+        pip install robotframework-seleniumlibrary
 
-      # 4. Rodar os testes no modo headless
-      - name: Run Robot Framework tests
-        run: |
-          xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' robot -d output tests/
-
-      # 5. Salvar relatórios como artefatos do GitHub Actions
-      - name: Upload Robot Framework reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: robot-reports
-          path: output/
+    # Passo 5: Rodar os testes do Robot Framework
+    - name: Rodar testes Robot Framework
+      run: |
+        export DISPLAY=:99.0
+        Xvfb :99 -screen 0 1280x1024x24 2>/dev/null &
+        robot --variable CHROME_USER_DATA_DIR:/tmp/chrome_user_data tests/
+    
+    # Passo 6: Upload dos relatórios como artefatos no GitHub Actions
+    - name: Upload Robot Framework reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: robot-reports
+        path: output/   
