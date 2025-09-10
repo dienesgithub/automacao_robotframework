@@ -2,45 +2,45 @@ name: Robot Framework Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  Robot_Framework_CI:
+  robot-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v4
+    - name: 🔄 Checkout do código
+      uses: actions/checkout@v3
 
-      - name: Instalar dependências Python
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip xvfb unzip wget
-          pip install robotframework robotframework-seleniumlibrary
+    - name: 🐍 Instalar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - name: Baixar e configurar Chrome e ChromeDriver
-        run: |
-          # Baixa Chrome for Testing
-          wget https://storage.googleapis.com/chrome-for-testing-public/140.0.7339.82/linux64/chrome-linux64.zip
-          unzip chrome-linux64.zip -d chrome
-          
-          # Adiciona Chrome e ChromeDriver ao PATH
-          export PATH=$PWD/chrome/chrome-140.0.7339.82-linux64/:$PATH
-          export PATH=$PWD/chrome/chrome-140.0.7339.82-linux64/chromedriver:$PATH
-          
-          # Verifica instalação
-          ./chrome/chrome-140.0.7339.82-linux64/google-chrome --version
-          ./chrome/chrome-140.0.7339.82-linux64/chromedriver --version
+    - name: 📦 Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install robotframework
+        pip install robotframework-seleniumlibrary
+        sudo apt-get update
+        sudo apt-get install -y unzip wget chromium-browser
 
+    - name: 📥 Baixar e configurar ChromeDriver
+      run: |
+        wget https://storage.googleapis.com/chrome-for-testing-public/140.0.7339.82/linux64/chromedriver-linux64.zip
+        unzip chromedriver-linux64.zip
+        chmod +x chromedriver-linux64/chromedriver
+        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
 
-      - name: Rodar testes Robot Framework
-        run: |
-          xvfb-run --auto-servernum robot -d output tests/
+    - name: 🧪 Executar testes Robot Framework
+      run: |
+        robot -d output tests/
 
-      - name: Upload de relatórios (sempre)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: robot-reports
-          path: output/
+    - name: 📤 Publicar relatório como artefato
+      uses: actions/upload-artifact@v3
+      with:
+        name: Relatorio-Robot-Framework
+        path: output/
