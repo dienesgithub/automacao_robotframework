@@ -19,19 +19,15 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y wget curl unzip xvfb
 
-    - name: Instalar Google Chrome
+    - name: Instalar Google Chrome versão 117
       run: |
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo apt install -y ./google-chrome-stable_current_amd64.deb
+        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_117.0.5938.92-1_amd64.deb
+        sudo apt install -y ./google-chrome-stable_117.0.5938.92-1_amd64.deb
 
-    - name: Instalar ChromeDriver compatível
+    - name: Instalar ChromeDriver versão 117
       run: |
-        CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-        echo "Versão do Chrome: $CHROME_VERSION"
-        DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r --arg ver "$CHROME_VERSION" '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url')
-        echo "Baixando ChromeDriver de: $DRIVER_VERSION"
-        wget -O chromedriver.zip "$DRIVER_VERSION"
-        unzip chromedriver.zip
+        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.92/linux64/chromedriver-linux64.zip
+        unzip chromedriver-linux64.zip
         sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
 
