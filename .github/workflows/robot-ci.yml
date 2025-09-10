@@ -1,66 +1,58 @@
-name: Testes Robot Framework
+name: Teste Robot Framework
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 jobs:
   robot-run:
     runs-on: ubuntu-latest
 
     steps:
-    # Passo 1: Clonar o código
-    - name: Checkout
-      uses: actions/checkout@v4
+    - name: Check out repository
+      uses: actions/checkout@v3
 
-    # Passo 2: Configurar Python
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-
-    # Passo 3: Instalar dependências Robot
-    - name: Instalar dependências
+    - name: Instalar dependências básicas
       run: |
-        python -m pip install --upgrade pip
-        pip install robotframework
-        pip install robotframework-seleniumlibrary
+        sudo apt-get update
+        sudo apt-get install -y wget curl unzip xvfb
 
-    # Passo 4: Instalar Chrome for Testing + Chromedriver compatíveis
-    - name: Instalar Chrome + Chromedriver
+    - name: Instalar Google Chrome
       run: |
-        wget https://storage.googleapis.com/chrome-for-testing-public/114.0.5735.90/linux64/chrome-linux64.zip
-        wget https://storage.googleapis.com/chrome-for-testing-public/114.0.5735.90/linux64/chromedriver-linux64.zip
-        unzip chrome-linux64.zip
-        unzip chromedriver-linux64.zip
-        sudo mv chrome-linux64 /opt/google-chrome
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+    - name: Instalar ChromeDriver compatível
+      run: |
+        CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+        echo "Versão do Chrome: $CHROME_VERSION"
+        DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r --arg ver "$CHROME_VERSION" '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url')
+        echo "Baixando ChromeDriver de: $DRIVER_VERSION"
+        wget -O chromedriver.zip "$DRIVER_VERSION"
+        unzip chromedriver.zip
         sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
 
-    # Passo 5: Rodar os testes Robot Framework
-    - name: Executar testes
+    - name: Instalar Robot Framework e bibliotecas
       run: |
-        export DISPLAY=:99.0
-        export CHROME_BIN=/opt/google-chrome/chrome
-        Xvfb :99 -screen 0 1280x1024x24 2>/dev/null &
-        robot --output output.xml tests/
+        python -m pip install --upgrade pip
+        pip install robotframework robotframework-seleniumlibrary
 
-    # Passo 6: Gerar relatórios (mesmo se os testes falharem)
-    - name: Gerar relatórios
-      if: always()
+    - name: Rodar testes Robot Framework
       run: |
-        rebot --output output.xml --log log.html --report report.html
+        export DISPLAY=:99
+        Xvfb :99 -screen 0 1280x1024x24 &
+        sleep 3
+        robot tests/
 
-    # Passo 7: Upload de relatórios
-    - name: Upload relatórios Robot Framework
-      if: always()
+    - name: Upload dos relatórios
       uses: actions/upload-artifact@v4
       with:
         name: Relatorios-RobotFramework
         path: |
           log.html
-          report.html
           output.xml
+          report.html
         retention-days: 7
