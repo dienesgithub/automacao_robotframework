@@ -1,54 +1,46 @@
-name: Teste Robot Framework
+name: Robot Framework Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  robot-run:
+  robot-tests:
     runs-on: ubuntu-latest
 
     steps:
-    # Passo 1: Check out o código do repositório
-    - name: Check out repository
-      uses: actions/checkout@v2
+    - name: 🔄 Checkout do código
+      uses: actions/checkout@v3
 
-    # Passo 2: Instalar o Google Chrome
-    - name: Instalar Google Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wget curl
-        sudo apt-get install -y google-chrome-stable
+    - name: 🐍 Instalar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-    # Passo 3: Instalar o ChromeDriver
-    - name: Instalar ChromeDriver
-      run: |
-        # Baixar a versão do ChromeDriver correspondente à versão do Chrome
-        wget https://storage.googleapis.com/chrome-for-testing-public/140.0.7339.82/linux64/chromedriver-linux64.zip
-        unzip chromedriver-linux64.zip
-        # Listar os arquivos extraídos para verificar onde está o chromedriver
-        ls -la chromedriver-linux64
-        # Mover o chromedriver para /usr/local/bin/
-        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/chromedriver
-
-    # Passo 4: Instalar o Robot Framework e bibliotecas necessárias
-    - name: Instalar o Robot Framework e dependências
+    - name: 📦 Instalar dependências
       run: |
         python -m pip install --upgrade pip
         pip install robotframework
         pip install robotframework-seleniumlibrary
+        sudo apt-get update
+        sudo apt-get install -y unzip wget chromium-browser
 
-    - name: Executar testes Robot Framework
+    - name: 📥 Baixar e configurar ChromeDriver
       run: |
-        robot -d output tests/
+        wget https://storage.googleapis.com/chrome-for-testing-public/140.0.7339.82/linux64/chromedriver-linux64.zip
+        unzip chromedriver-linux64.zip
+        chmod +x chromedriver-linux64/chromedriver
+        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
 
-    - name: Publicar relatório como artefato
+    - name: 🧪 Executar testes Robot Framework
+      run: |
+        robot -d results tests/
+
+    - name: 📤 Publicar relatório como artefato
       uses: actions/upload-artifact@v4
       with:
         name: Relatorio-Robot-Framework
-        path: output/    
+        path: results/
