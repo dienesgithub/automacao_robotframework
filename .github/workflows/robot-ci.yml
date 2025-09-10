@@ -31,7 +31,6 @@ jobs:
 
       - name: Rodar testes Robot Framework
         run: |
-          # Usando Xvfb para rodar o Chrome headless
           xvfb-run --auto-servernum robot -d output tests/
 
       - name: Upload de relatórios (sempre)
