@@ -11,7 +11,7 @@ ${CAMPO_PESQUISA}    //*[@id="twotabsearchtextbox"]
 
 *** Keywords ***
 Abrir o navegador
-    Open Browser   browser=chrome
+    Open Browser   browser=chrome   options=add_argument(--headless);add_argument(--disable-gpu);add_argument(--no-sandbox);add_argument(--disable-dev-shm-usage)
     Maximize Browser Window
     Sleep    3s
 
