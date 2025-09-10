@@ -58,4 +58,4 @@ jobs:
           output.xml
           report.html
           log.html
-          output/*.png
+          *.png
