@@ -31,21 +31,13 @@ jobs:
     # Passo 4: Instalar Chrome for Testing + Chromedriver compatíveis
     - name: Instalar Chrome + Chromedriver
       run: |
-        CHROME_VERSION=$(wget -qO- https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE)
-        echo "Instalando versão $CHROME_VERSION"
-
-        wget https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chrome-linux64.zip
-        wget https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chromedriver-linux64.zip
-
+        wget https://storage.googleapis.com/chrome-for-testing-public/114.0.5735.90/linux64/chrome-linux64.zip
+        wget https://storage.googleapis.com/chrome-for-testing-public/114.0.5735.90/linux64/chromedriver-linux64.zip
         unzip chrome-linux64.zip
         unzip chromedriver-linux64.zip
-
         sudo mv chrome-linux64 /opt/google-chrome
         sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
-
-        /opt/google-chrome/chrome --version
-        chromedriver --version
 
     # Passo 5: Rodar os testes Robot Framework
     - name: Executar testes
