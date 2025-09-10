@@ -1,5 +1,7 @@
 *** Settings ***
 Library    SeleniumLibrary
+Test Setup    Abrir o navegador
+Test Teardown    Fechar o navegador
 
 *** Variables ***
 # Dados do teste
@@ -15,6 +17,14 @@ ${botaoPesquisa}    //button[class="ytSearchboxComponentSearchButton ytSearchbox
 ${videoDesejado}    //input[title=${nomeMusica}]
 
 *** Keywords ***
+
+Abrir o navegador
+    Open Browser   browser=chrome
+    Maximize Browser Window
+    Sleep    3s
+
+Fechar o navegador
+    Close Browser
 Teste 1
     Go To    ${url}
 
