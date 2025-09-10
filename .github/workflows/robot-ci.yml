@@ -52,7 +52,12 @@ jobs:
     
     # Passo 6: Upload dos relatórios como artefatos no GitHub Actions
     - name: Upload Robot Framework reports
+      if: always()   # garante que roda mesmo se o job falhar
       uses: actions/upload-artifact@v4
       with:
-        name: robot-reports
-        path: output/   
+        name: robot-report
+        path: |
+          output.xml
+          report.html
+          log.html
+          output/*.png
