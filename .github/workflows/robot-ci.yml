@@ -1,4 +1,4 @@
-name: Teste Robot Framework
+name: Testes Robot Framework
 
 on:
   push:
@@ -13,49 +13,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Passo 1: Check out o código do repositório
-    - name: Check out repository
-      uses: actions/checkout@v2
+    # Passo 1: Clonar o repositório
+    - name: Checkout do código
+      uses: actions/checkout@v4
 
-    # Passo 2: Instalar o Google Chrome
-    - name: Instalar Google Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wget curl
-        sudo apt-get install -y google-chrome-stable
+    # Passo 2: Configurar Python
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
-    # Passo 3: Instalar o ChromeDriver
-    - name: Instalar ChromeDriver compatível
-      run: |
-        CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
-        echo "Versão do Chrome instalada: $CHROME_VERSION"
-        DRIVER_VERSION=$(wget -qO- "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_$CHROME_VERSION")
-        echo "Versão correspondente do ChromeDriver: $DRIVER_VERSION"
-        wget https://storage.googleapis.com/chrome-for-testing-public/$DRIVER_VERSION/linux64/chromedriver-linux64.zip
-        unzip chromedriver-linux64.zip
-        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/chromedriver
-
-    # Passo 4: Instalar o Robot Framework e bibliotecas necessárias
-    - name: Instalar o Robot Framework e dependências
+    # Passo 3: Instalar dependências do Robot Framework
+    - name: Instalar dependências
       run: |
         python -m pip install --upgrade pip
         pip install robotframework
         pip install robotframework-seleniumlibrary
+        pip install webdriver-manager   # cuida do ChromeDriver
 
-    # Passo 5: Rodar os testes do Robot Framework
-    - name: Rodar testes Robot Framework
+    # Passo 4: Instalar Chrome + Chromedriver compatíveis
+    - name: Instalar Chrome e Chromedriver
+      uses: browser-actions/setup-chrome@v1
+
+    # Passo 5: Rodar testes Robot Framework
+    - name: Executar testes
       run: |
         export DISPLAY=:99.0
         Xvfb :99 -screen 0 1280x1024x24 2>/dev/null &
-        robot --variable CHROME_USER_DATA_DIR:/tmp/chrome_user_data tests/
-    
-    # Passo 6: Upload dos relatórios como artefatos no GitHub Actions
-    - name: Upload dos relatórios do Robot Framework
+        robot --output output.xml tests/
+
+    # Passo 6: Garantir geração dos relatórios (mesmo com falha)
+    - name: Gerar relatórios
+      if: always()
+      run: |
+        rebot --output output.xml --log log.html --report report.html
+
+    # Passo 7: Upload dos relatórios como artefatos
+    - name: Upload relatórios Robot Framework
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: Relatorios-RobotFramework
         path: |
-          /home/runner/work/automacao_robotframework/automacao_robotframework/log.html
-          /home/runner/work/automacao_robotframework/automacao_robotframework/report.html
-        retention-days: 7  # Mantém os arquivos por 7 dias        
+          log.html
+          report.html
+          output.xml
+        retention-days: 7
