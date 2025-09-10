@@ -12,8 +12,10 @@ Este repositório contém testes automatizados utilizando o **Robot Framework**.
 📦 automacao_robotframework
 ├── 📂 .github/workflows/  # Configuração do GitHub Actions
 |   ├── 📜 robot-ci.yml    # Workflow de execução dos testes
+├── 📂 output              # Diretório com relatórios de execuções locais
 ├── 📂 tests               # Diretório com os testes
 ├── 📜 README.md           # Documentação do projeto
+├── 📜 .gitignore          # Arquivos ignorados nos commits do GitHub
 ```
 
 ## 🚀 Como Executar Localmente
@@ -46,11 +48,12 @@ robot --outputdir output .\tests\
 Verificar versão do navergador Chrome na máquina local e baixar o [chromedriver](https://googlechromelabs.github.io/chrome-for-testing/).
 Assim que feito o download o arquivo **chromedriver.exe** deve ser colocado no diretório **./Scripts/** do local de instalação do Python.
 
-## 🛠 Execução Automática via GitHub Actions
+## 🛠 Execução Automática via GitHub Actions e Relatórios
 A cada **push** ou **pull request**, os testes serão executados automaticamente. Para visualizar os resultados:
 1. Acesse o repositório no GitHub.
 2. Clique na aba **"Actions"**.
 3. Selecione o workflow mais recente para ver os detalhes da execução.
+4. Realize download dos relatórios na seção **"Artifacts"**
 
 ## 📜 Exemplo de Teste
 ```robot
