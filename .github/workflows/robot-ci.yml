@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  Robot Framework CI/CD:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,14 +16,24 @@ jobs:
       - name: Instalar dependências
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3 python3-pip xvfb
-          sudo apt-get install -y chromium-browser chromium-chromedriver
+          sudo apt-get install -y python3 python3-pip xvfb wget unzip
           pip install robotframework
           pip install robotframework-seleniumlibrary
 
+          # Instalar Google Chrome estável
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+          # Instalar ChromeDriver correspondente
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          wget https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
+
       - name: Rodar testes Robot Framework
         run: |
-          # Usando Xvfb para rodar o Chrome em modo headless no GitHub
+          # Usando Xvfb para rodar o Chrome headless
           xvfb-run --auto-servernum robot -d output tests/
 
       - name: Upload de relatórios (sempre)
