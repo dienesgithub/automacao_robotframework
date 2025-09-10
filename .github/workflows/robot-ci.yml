@@ -19,16 +19,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y wget curl unzip xvfb libxss1 libappindicator3-1 libindicator7 fonts-liberation libnss3 lsb-release
 
-    - name: Baixar e instalar Google Chrome 117 (Chrome for Testing)
+    - name: Instalar Google Chrome (última versão estável)
       run: |
-        wget https://storage.googleapis.com/chrome-for-testing-public/117.0.5938.92/linux64/chrome-linux64.zip
-        unzip chrome-linux64.zip
-        sudo mv chrome-linux64 /opt/chrome
-        sudo ln -s /opt/chrome/chrome /usr/bin/google-chrome
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
-    - name: Baixar e instalar ChromeDriver 117
+    - name: Instalar ChromeDriver versão 140.0.7339.82
       run: |
-        wget https://storage.googleapis.com/chrome-for-testing-public/117.0.5938.92/linux64/chromedriver-linux64.zip
+        wget https://storage.googleapis.com/chrome-for-testing-public/140.0.7339.82/linux64/chromedriver-linux64.zip
         unzip chromedriver-linux64.zip
         sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
