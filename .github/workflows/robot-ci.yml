@@ -40,7 +40,7 @@ jobs:
         robot -d output tests/
 
     - name: 📤 Publicar relatório como artefato
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Relatorio-Robot-Framework
         path: output/
