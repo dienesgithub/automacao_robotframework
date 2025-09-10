@@ -11,7 +11,7 @@ ${CAMPO_PESQUISA}    //*[@id="twotabsearchtextbox"]
 
 *** Keywords ***
 Abrir o navegador
-    Open Browser   browser=chrome    options=add_experimental_option("detach", True)
+    Open Browser   browser=chrome
     Maximize Browser Window
     Sleep    3s
 
