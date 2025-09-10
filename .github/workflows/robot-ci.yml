@@ -27,7 +27,7 @@ jobs:
       run: | 
         robot --outputdir output --variable BROWSER_ARGS:"--no-sandbox --disable-dev-shm-usage" tests
     - name: Upload Robot Framework Reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: robot-framework-reports
         path: output
