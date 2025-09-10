@@ -17,16 +17,18 @@ jobs:
     - name: Instalar dependências básicas
       run: |
         sudo apt-get update
-        sudo apt-get install -y wget curl unzip xvfb
+        sudo apt-get install -y wget curl unzip xvfb libxss1 libappindicator3-1 libindicator7 fonts-liberation libnss3 lsb-release
 
-    - name: Instalar Google Chrome versão 117
+    - name: Baixar e instalar Google Chrome 117 (Chrome for Testing)
       run: |
-        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_117.0.5938.92-1_amd64.deb
-        sudo apt install -y ./google-chrome-stable_117.0.5938.92-1_amd64.deb
+        wget https://storage.googleapis.com/chrome-for-testing-public/117.0.5938.92/linux64/chrome-linux64.zip
+        unzip chrome-linux64.zip
+        sudo mv chrome-linux64 /opt/chrome
+        sudo ln -s /opt/chrome/chrome /usr/bin/google-chrome
 
-    - name: Instalar ChromeDriver versão 117
+    - name: Baixar e instalar ChromeDriver 117
       run: |
-        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.92/linux64/chromedriver-linux64.zip
+        wget https://storage.googleapis.com/chrome-for-testing-public/117.0.5938.92/linux64/chromedriver-linux64.zip
         unzip chromedriver-linux64.zip
         sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
