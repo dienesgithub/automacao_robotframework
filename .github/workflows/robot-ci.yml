@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  Robot Framework CI/CD:
+  Automação Robot Framework:
     runs-on: ubuntu-latest
 
     steps:
