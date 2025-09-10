@@ -13,23 +13,21 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      - name: Instalar dependências
+      - name: Instalar dependências Python
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3 python3-pip xvfb wget unzip
-          pip install robotframework
-          pip install robotframework-seleniumlibrary
+          sudo apt-get install -y python3 python3-pip xvfb unzip
+          pip install robotframework robotframework-seleniumlibrary
 
-          # Instalar Google Chrome estável
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
-
-          # Instalar ChromeDriver correspondente
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          wget https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
+      - name: Baixar e configurar Chrome/ChromeDriver
+        run: |
+          wget https://storage.googleapis.com/chrome-for-testing-public/140.0.7339.82/linux64/chrome-linux64.zip
+          unzip chrome-linux64.zip -d chrome
+          export PATH=$PWD/chrome/chrome-140.0.7339.82-linux64/:$PATH
+          export PATH=$PWD/chrome/chrome-140.0.7339.82-linux64/chromedriver:$PATH
+          # Verifica instalação
+          google-chrome --version
+          chromedriver --version
 
       - name: Rodar testes Robot Framework
         run: |
