@@ -13,25 +13,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
-    
     - name: Install Robot Framework and SeleniumLibrary
       run: pip install robotframework robotframework-seleniumlibrary
-    
     - name: Install Chrome
       run: |
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
-    
     - name: Run Robot Framework Tests
-      run: robot --outputdir output tests/
-    
+      run: | 
+        robot --outputdir output --variable BROWSER_ARGS:"--no-sandbox --disable-dev-shm-usage" tests
     - name: Upload Robot Framework Reports
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: robot-framework-reports
         path: output
