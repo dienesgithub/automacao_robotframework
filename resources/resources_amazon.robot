@@ -1,5 +1,5 @@
 *** Settings ***
-Library    SeleniumLibrary
+Library    SeleniumLibrary    run_on_failure=Capture Page Screenshot
 
 *** Variables ***
 ${URL}    https://www.amazon.com.br
