@@ -13,21 +13,21 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      - name: Instalar dependências Python
+      - name: Instalar Python e dependências
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3 python3-pip xvfb unzip
+          sudo apt-get install -y python3 python3-pip xvfb
           pip install robotframework robotframework-seleniumlibrary
 
-      - name: Baixar e configurar Chrome/ChromeDriver
-        run: |
-          wget https://storage.googleapis.com/chrome-for-testing-public/140.0.7339.80/linux64/chromedriver-linux64.zip
-          unzip chromedriver-linux64 -d chrome
-          export PATH=$PWD/chrome/chrome-140.0.7339.80-linux64/:$PATH
-          export PATH=$PWD/chrome/chrome-140.0.7339.80-linux64/chromedriver:$PATH
-          # Verifica instalação
-          google-chrome --version
-          chromedriver --version
+      - name: Configurar Google Chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: stable  # pega a versão estável mais recente
+
+      - name: Configurar ChromeDriver
+        uses: browser-actions/setup-chromedriver@v2
+        with:
+          chromedriver-version: latest  # pega a versão compatível com o Chrome instalado
 
       - name: Rodar testes Robot Framework
         run: |
