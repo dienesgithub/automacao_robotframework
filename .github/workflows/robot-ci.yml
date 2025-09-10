@@ -22,12 +22,12 @@ jobs:
       - name: Configurar Google Chrome
         uses: browser-actions/setup-chrome@v2
         with:
-          chrome-version: stable  # pega a versão estável mais recente
+          chrome-version: stable
 
       - name: Configurar ChromeDriver
-        uses: browser-actions/setup-chromedriver@v2
+        uses: actions/setup-chromedriver@v2
         with:
-          chromedriver-version: latest  # pega a versão compatível com o Chrome instalado
+          chromedriver-version: latest
 
       - name: Rodar testes Robot Framework
         run: |
