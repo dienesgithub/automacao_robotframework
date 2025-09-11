@@ -42,11 +42,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install robotframework
         pip install robotframework-seleniumlibrary
+        pip install robotframework-requests
 
-    # Passo 5: Rodar os testes do Robot Framework
+    # Passo 5: Rodar os testes funcionais do Robot Framework
     - name: Rodar testes Robot Framework
       run: |
-        xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" robot -d output tests/
+        xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" robot -d output tests_functional/ tests_api/
     
     # Passo 6: Upload dos relatórios como artefatos no GitHub Actions
     - name: Upload Robot Framework reports

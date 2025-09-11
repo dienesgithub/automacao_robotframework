@@ -13,9 +13,11 @@ Este repositório contém testes automatizados utilizando o **Robot Framework**.
 ├── 📂 .github/workflows/  # Configuração do GitHub Actions
 |   ├── 📜 robot-ci.yml    # Workflow de execução dos testes
 ├── 📂 output              # Diretório com relatórios de execuções locais
-├── 📂 tests               # Diretório com os testes
-├── 📜 README.md           # Documentação do projeto
+├── 📂 resources           # Diretório com suporte e reutilizações dos testes
+├── 📂 tests_api           # Diretório com os testes de api
+├── 📂 tests_functional    # Diretório com os testes funcionais
 ├── 📜 .gitignore          # Arquivos ignorados nos commits do GitHub
+├── 📜 README.md           # Documentação do projeto
 ```
 
 ## 🚀 Como Executar Localmente
@@ -37,11 +39,13 @@ venv\Scripts\activate      # Windows
 ```bash
 pip install robotframework
 pip install robotframework-seleniumlibrary
+pip install robotframework-requests
 ```
 
 4️⃣ **Executar os testes:**
 ```bash
-robot --outputdir output .\tests\
+robot --outputdir output .\tests_api\
+robot --outputdir output .\tests_functional\
 ```
 
 ## 🌐 Download chromedriver.exe
