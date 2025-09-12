@@ -6,7 +6,7 @@ ${URL}    https://www.amazon.com.br
 ${MENU_TODOS}    //*[@id="nav-hamburger-menu"]/span
 ${CONNTINUAR_COMPRANDO}    xpath=//button[normalize-space(text())='Continuar comprando']
 ${MENU_ELETRONICOS}    //*[@data-csa-c-content-id="nav_cs_electronics"]
-${CATEGORIA_COMPUTADOR_INFORMATICA}    //*[@id="anonCarousel2"]/ol/li[1]/div/a/div[2]/span/span
+${CATEGORIA_COMPUTADOR_INFORMATICA}    xpath=//span[contains(normalize-space(.),"Computadores e Informática")]
 ${CAMPO_PESQUISA}    //*[@id="twotabsearchtextbox"]
 
 *** Keywords ***
