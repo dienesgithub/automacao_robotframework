@@ -2,7 +2,7 @@
 Documentation   Exemplo de escopo de variáveis: GLOBAIS, SUITE, TESTE (test case) e LOCAL (keyword)
 Library         String
 
-*** Variable ***
+*** Variables ***
 ${GLOBAL_INSTANCIADA}     Minha variável GLOBAL_INSTANCIADA foi instanciada para a suíte
 
 *** Test Cases ***

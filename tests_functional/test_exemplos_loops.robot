@@ -5,7 +5,7 @@ Documentation   Vamos aprender a fazer LOOPS usando o Robot Framework!!
 ### Indíce da lista          0      1        2       3       4       5
 @{MINHA_LISTA_DE_FRUTAS}   maça  abacaxi  banana  morango  laranja  uva
 
-*** Test Case ***
+*** Test Cases ***
 Teste de REPEAT KEYWORD
     [Documentation]  Chama uma mesma keyword várias vezes
     Usando Repeat keyword

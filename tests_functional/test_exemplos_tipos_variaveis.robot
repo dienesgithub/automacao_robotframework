@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation   Exemplo de tipos de variáveis: SIMPLES, LISTAS e DICIONÁRIOS
-*** Variable ***
+*** Variables ***
 #Simples
 ${SIMPLES}   Vamos ver os tipos de variáveis no robot!
 

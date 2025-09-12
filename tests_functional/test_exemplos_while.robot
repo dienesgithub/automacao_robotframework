@@ -13,7 +13,7 @@ Test Teardown   Log To Console    ${\n}
 ${STATUS}  ${1}
 
 
-*** Test Case ***
+*** Test Cases ***
 Caso de teste exemplo de WHILE
     Usando WHILE para loop
 
