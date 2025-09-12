@@ -39,7 +39,8 @@ Verificar se o título da página fica "${TITULO}"
     Title Should Be    title=${TITULO}
 
 Verificar se aparece a categoria "Computadores e Informática"
-    Execute Javascript    window.scrollTo(0, 700)
+    Execute Javascript    window.scrollTo(0, 500)
+    Wait Until Element Is Enabled    locator=${CATEGORIA_COMPUTADOR_INFORMATICA}    timeout=10s
     Element Should Be Visible    locator=${CATEGORIA_COMPUTADOR_INFORMATICA}
 
 Digitar o nome do produto "${PRODUTO}" no campo de pesquisa
