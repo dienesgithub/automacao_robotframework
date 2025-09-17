@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation   http://robotframework.org/robotframework/latest/libraries/Process.html
-Library         Process
+Library    Process
+Library    OperatingSystem
 
 *** Test Cases ***
 Exemplo 01: Abrindo programas
@@ -17,9 +18,14 @@ Exemplo 03: Execute comandos de prompt
 Abra e feche o Notepad
     ## Inicia o processo e não espera por resposta dele
     ## Lembrete: Para caminhos no Windows use barras duplas!!
-    ${MEU_PROCESSO}     Start Process    C:\\WINDOWS\\system32\\notepad.exe
-    Sleep  3s
-    Terminate Process   ${MEU_PROCESSO}   kill=True
+    ${SO}=    Evaluate    __import__('platform').system()
+    IF    '${SO}' == 'Windows'
+        ${MEU_PROCESSO}=    Start Process    C:\\WINDOWS\\system32\\notepad.exe
+        Sleep    3s
+        Terminate Process   ${MEU_PROCESSO}   kill=True
+    ELSE
+        Log    "Sistema não é Windows, Notepad não será aberto."
+    END
 
 Verifica sucesso na execução do processo
     [Arguments]      ${PROCESSO}
